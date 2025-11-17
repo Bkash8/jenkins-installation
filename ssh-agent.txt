@@ -1,0 +1,22 @@
+##using ssh-agent
+
+steps
+first add nodes
+
+a. go to manage Jenkins
+b. go to nodes --> New Node --> Node Name --> Permanent Agent --> create
+c. give Name like my-agentnode-1 --> 
+	- Remote root directory, where you want to copy or load file like /home/bkas8 --> 
+	- Give Label name --> 
+	- Launch method = select Launch agents via SSH --> 
+	- Host = e.g 192.168.1.223 --> 
+	- credential = select the credential
+		- (First create credential from Manage Jenkins --> 
+		- Credentials --> 
+		- global --> 
+		- add new credential --> 
+		- kind = select SSH Username with private key --> give ID, Description, Username and add Private Key)
+	- Availability = Keep this agent online as much as possible
+	- Apply and save
+
+
