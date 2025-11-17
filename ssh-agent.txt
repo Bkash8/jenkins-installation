@@ -20,3 +20,33 @@ c. give Name like my-agentnode-1 -->
 	- Apply and save
 
 
+
+
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Bkash8/My-Youtube-App.git']])
+            }
+        }
+        stage('Deploy to ubuntu') {
+            steps {
+                sshagent(['credential-my-node-1']) {
+                sh '''
+                rsync -avz --exclude=".git" --exclude=".gitignore" -e "ssh -o StrictHostKeyChecking=no" ./ bkash8@192.168.1.253:/home/bkash8/
+                ssh -o StrictHostKeyChecking=no bkash8@192.168.1.253 "
+                cd /home/bkash8 &&
+                npm install &&
+                npm run build &
+                nohup npm start &
+                "
+                '''
+                }
+            }
+        }
+    }
+}
